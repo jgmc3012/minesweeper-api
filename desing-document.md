@@ -21,6 +21,8 @@ Build a API with the logic game Minesweeper.
 - The data game should be persistence for each user
 - Ability to start a new game and preserve/resume the old ones
 - Ability to select the game parameters: number of rows, columns and mines.
+- The total mines is between 1 and 1/3 of the cells
+- Show the all mines when the game is over
 
 ### Out of Scope (Dont supported use-cases)
 
