@@ -5,12 +5,12 @@ describe 'Board' do
   describe 'cell is null?' do
     it 'should return true if cell is null' do
       board = Core::Board.new
-      board.mount_new_board(2, 2, Core::Cells::VOID)
+      board.mount_new_board!(2, 2, Core::Cells::VOID)
       expect(board.cell_is_void?(0, 0)).to eq(true)
     end
     it 'should return false if cell is not null' do
       board = Core::Board.new
-      board.mount_new_board(2, 2, Core::Cells::VOID)
+      board.mount_new_board!(2, 2, Core::Cells::VOID)
       board[0, 0] = 'X'
       expect(board.cell_is_void?(0, 0)).to eq(false)
     end
@@ -19,20 +19,20 @@ describe 'Board' do
   describe 'toggle flag' do
     it 'active flag if cell is null' do
       board = Core::Board.new
-      board.mount_new_board(2, 2, Core::Cells::VOID)
-      board.toggle_flag(x: 0, y: 0, flag: Core::Cells::QUESTION_FLAG)
+      board.mount_new_board!(2, 2, Core::Cells::VOID)
+      board.toggle_flag!(x: 0, y: 0, flag: Core::Cells::QUESTION_FLAG)
       expect(board[0, 0]).to eq(Core::Cells::QUESTION_FLAG)
     end
     it 'desactive flag if cell is equal to flag' do
       board = Core::Board.new
-      board.mount_new_board(2, 2, Core::Cells::QUESTION_FLAG)
-      board.toggle_flag(x: 0, y: 0, flag: Core::Cells::QUESTION_FLAG)
+      board.mount_new_board!(2, 2, Core::Cells::QUESTION_FLAG)
+      board.toggle_flag!(x: 0, y: 0, flag: Core::Cells::QUESTION_FLAG)
       expect(board[0, 0]).to eq(Core::Cells::VOID)
     end
     it 'active flag if cell is equal to other flag' do
       board = Core::Board.new
-      board.mount_new_board(2, 2, Core::Cells::QUESTION_FLAG)
-      board.toggle_flag(x: 0, y: 0, flag: Core::Cells::RED_FLAG)
+      board.mount_new_board!(2, 2, Core::Cells::QUESTION_FLAG)
+      board.toggle_flag!(x: 0, y: 0, flag: Core::Cells::RED_FLAG)
       expect(board[0, 0]).to eq(Core::Cells::RED_FLAG)
     end
   end
@@ -46,7 +46,7 @@ describe 'Board' do
       %w[Q H H 4 M]
     ]
     board = Core::Board.new
-    board.mount_board(data_board)
+    board.mount_board!(data_board)
 
     it 'number cell' do
       expect(board[0, 0]).to eq(1)
@@ -79,7 +79,7 @@ describe 'Board' do
       %w[V M V M M]
     ]
     board = Core::Board.new
-    board.mount_board(data_board)
+    board.mount_board!(data_board)
     it 'should return 1' do
       expect(board.count_mines(0, 0)).to eq(1)
     end
@@ -97,7 +97,7 @@ describe 'Board' do
       %w[V V M V V]
     ]
     board = Core::Board.new
-    board.mount_board(data_board)
+    board.mount_board!(data_board)
     it 'discover all camp' do
       expected_board = [
         %w[V M V 0 0],
@@ -106,7 +106,7 @@ describe 'Board' do
         %w[0 V V V 0],
         %w[0 V M V 0]
       ]
-      board.explore_position(2, 2)
+      board.explore_position!(2, 2)
       expect(board.to_array).to eq(expected_board)
     end
 
@@ -118,7 +118,7 @@ describe 'Board' do
         %w[V V V V V],
         %w[V V M V V]
       ]
-      board.explore_position(1, 1)
+      board.explore_position!(1, 1)
       expect(board.to_array).to eq(expected_board)
     end
   end

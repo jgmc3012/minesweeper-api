@@ -2,7 +2,7 @@ module Core
   class Board
     attr_accessor :width, :heigth
 
-    def mount_new_board(width, heigth, def_cell=Core::Cells::VOID)
+    def mount_new_board!(width, heigth, def_cell=Core::Cells::VOID)
       @width = width
       @heigth = heigth
       @board = Array.new(heigth) { Array.new(width, def_cell) }
@@ -38,7 +38,7 @@ module Core
       @board.flatten.count(type)
     end
 
-    def toggle_flag(x:, y:, flag:)
+    def toggle_flag!(x:, y:, flag:)
       if self[x, y].eql?(flag)
         self[x, y] = Core::Cells::VOID
       else
@@ -47,7 +47,7 @@ module Core
     end
 
     # Read an array of arrays and return a new board
-    def mount_board(data_board)
+    def mount_board!(data_board)
       if defined?(@board)
         raise Core::Exceptions::BoardStarted
       else
@@ -82,16 +82,28 @@ module Core
       count
     end
 
+    def explore_position!(x, y)
+      mines = count_mines(x, y)
+      if mines.zero?
+        # TODO: Explore all the cells around
+      else
+        self[x, y] = mines
+      end
+    end
+
+    def to_array
+      @board.map { |row| row.map(&:to_s) }
+    end
   end
 
   class UserBoard < Board
-    def mount_new_board(width, heigth)
+    def mount_new_board!(width, heigth)
       super(width, heigth, Core::Cells::HIDE)
     end
   end
 
   class InternalBoard < Board
-    def mount_new_board(width, heigth)
+    def mount_new_board!(width, heigth)
       super(width, heigth, Core::Cells::VOID)
     end
   end
