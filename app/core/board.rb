@@ -45,13 +45,19 @@ module Core
     end
 
     def mount_board(data_board)
+      if defined?(@board)
+        raise Core::Exceptions::BoardStarted
+      else
+        @board = []
+      end
       data_board.each_with_index do |row, y|
+        @board.insert(y, [])
         row.each_with_index do |cell, x|
           n = cell.to_i
           if n.zero?
-            self[x, y] = cell.to_sym
+            @board[y].insert(x, cell.to_sym)
           else
-            self[x, y] = n
+            @board[y].insert(x, n)
           end
         end
       end

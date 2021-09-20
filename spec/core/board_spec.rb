@@ -43,10 +43,9 @@ describe 'Board' do
       %w[1 1 1 H H],
       %w[H H 2 H H],
       %w[H H H H H],
-      %w[Q H H 4 H]
+      %w[Q H H 4 M]
     ]
     board = Core::Board.new
-    board.mount_new_board(5, 5)
     board.mount_board(data_board)
 
     it 'number cell' do
@@ -65,6 +64,27 @@ describe 'Board' do
     it 'hide cell' do
       expect(board[4, 0]).to eq(Core::Cells::HIDE)
     end
+    it 'mine cell' do
+      expect(board[4, 4]).to eq(Core::Cells::MINE)
+    end
 
+  end
+
+  describe 'count mines' do
+    data_board = [
+      %w[V M V V V],
+      %w[V V V M V],
+      %w[V V V V V],
+      %w[V V M V V],
+      %w[V M V M M],
+    ]
+    board = Core::Board.new
+    board.mount_board(data_board)
+    it 'should return 1' do
+      expect(board.count_mines(0, 0)).to eq(1)
+    end
+    it 'should return 3' do
+      expect(board.count_mines(2, 4)).to eq(3)
+    end
   end
 end

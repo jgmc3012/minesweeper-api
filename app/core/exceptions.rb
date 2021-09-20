@@ -18,6 +18,12 @@ module Core
       end
     end
 
+    class BoardStarted < RuntimeError
+      def initialize(message = 'Board started')
+        super
+      end
+    end
+
     class GameOver < RuntimeError
       def initialize(message = 'Game over')
         super
