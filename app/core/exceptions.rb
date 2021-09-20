@@ -29,5 +29,12 @@ module Core
         super
       end
     end
+
+    class InvalidCommand < RuntimeError
+      def initialize(message = 'Invalid command')
+        super
+      end
+    end
+
   end
 end

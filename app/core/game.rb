@@ -39,7 +39,33 @@ module Core
     def render_board
       @user_board.merge_and_transfor_to_s(@mines_board)
     end
+
+    def exec(command:, x:, y:)
+      case command
+      when :show_cell
+        show_cell(x, y)
+      when :question_flag
+        toggle_flag(x, y, Core::Cells::QUESTION_FLAG)
+      when :red_flag
+        toggle_flag(x, y, Core::Cells::RED_FLAG)
+      else
+        raise Core::Exceptions::InvalidCommand
+      end
+      render_board
+    end
+
     private
+    def show_cell(x, y)
+      if @mines_board[x,y].eql?(Core::Cells::MINE)
+        raise Core::Exceptions::GameOver
+      else
+        @mines.explore_position!(x, y)
+      end
+    end
+
+    def toggle_flag(x, y, flag)
+      @user_board.toggle_flag!(x: x, y: y, flag: flag)
+    end
 
     def add_mine
       loop do
