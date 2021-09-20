@@ -13,9 +13,6 @@ describe 'Game' do
       it 'Total mines should be indicated' do
         expect(game.mines_board.count(Core::Cells::MINE)).to eq(mines)
       end
-      it 'The flag board should be void' do
-        expect(game.flags_board.all?(Core::Cells::VOID)).to eq(true)
-      end
     end
   end
 

@@ -2,10 +2,13 @@ module Core
   class Board
     attr_accessor :width, :heigth
 
-    def mount_new_board!(width, heigth, def_cell=Core::Cells::VOID)
-      @width = width
-      @heigth = heigth
+    def initialize(def_cell=Core::Cells::VOID)
       @def_cell = def_cell
+    end
+
+    def mount_new_board!(width, heigth)
+      @heigth = heigth
+      @width = width
       @board = Array.new(heigth) { Array.new(width, @def_cell) }
     end
 
@@ -41,7 +44,7 @@ module Core
 
     def toggle_flag!(x:, y:, flag:)
       if self[x, y].eql?(flag)
-        self[x, y] = Core::Cells::VOID
+        self[x, y] = Core::Cells::HIDE
       else
         self[x, y] = flag
       end
@@ -149,26 +152,26 @@ module Core
 
 
   class UserBoard < Board
-    
-    def mount_new_board!(width, heigth)
-      super(width, heigth, Core::Cells::HIDE)
+
+    def initialize
+      super(Core::Cells::HIDE)
     end
 
     protected
     def is_a_cell_types_valid?(type)
-      type in [Core::Cells::HIDE, Core::Cells::RED_FLAG, Core::Cells::QUESTION_FLAG]
+      [Core::Cells::HIDE, Core::Cells::RED_FLAG, Core::Cells::QUESTION_FLAG].one?(type)
     end
   end
 
   class InternalBoard < Board
     
-    def mount_new_board!(width, heigth)
-      super(width, heigth, Core::Cells::VOID)
+    def initialize
+      super(Core::Cells::VOID)
     end
 
     protected
     def is_a_cell_types_valid?(type)
-      type in [Core::Cells::VOID, Core::Cells::MINE, 0, 1, 2, 3, 4, 5, 6, 7, 8]
+      [Core::Cells::VOID, Core::Cells::MINE, 0, 1, 2, 3, 4, 5, 6, 7, 8].one?(type)
     end
   end
 

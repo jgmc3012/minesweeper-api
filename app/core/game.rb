@@ -1,13 +1,5 @@
 module Core
   class Game
-    def flags_board
-      begin
-        @flags_board
-      rescue NoMethodError
-        raise Core::Exceptions::GameNotStarted
-      end
-    end
-
     def user_board
       begin
         @user_board
@@ -33,9 +25,6 @@ module Core
 
       @mines_board = Core::InternalBoard.new
       @mines_board.mount_new_board!(width, heigth)
-
-      @flags_board = Core::InternalBoard.new
-      @flags_board.mount_new_board!(width, heigth)
       mines.times { add_mine }
     end
 
