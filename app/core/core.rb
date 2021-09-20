@@ -25,6 +25,10 @@ module Core
     def []=(width, heigth, value)
       @board[width][heigth] = value
     end
+
+    def cell_is_null?(x, y)
+      self[x, y].nil?
+    end
   end
 
   class Game < Struct.new(:user_board, :mines_board, :flags_board)
