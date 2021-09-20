@@ -1,4 +1,13 @@
 module Core
+
+  module Exceptions
+    class InvalidPosition < RuntimeError
+      def initialize(message = "Invalid position")
+        super
+      end
+    end
+  end
+
   class Board < Struct.new(:width, :heigth)
     def initialize(width, heigth)
       super
@@ -6,7 +15,11 @@ module Core
     end
 
     def [](width, heigth)
-      @board[width][heigth]
+      begin
+        @board[width][heigth]
+      rescue NoMethodError
+        raise Core::Exceptions::InvalidPosition
+      end
     end
 
     def []=(width, heigth, value)
@@ -23,12 +36,13 @@ module Core
     end
 
     private
+
     def add_mine
       while true
         x = rand(@user_board.width)
         y = rand(@user_board.heigth)
         if @mines_board.null_cell?(x, y)
-          @mines_board[x, y] = '*'
+          @mines_board[x, y] = "*"
           break
         end
       end
