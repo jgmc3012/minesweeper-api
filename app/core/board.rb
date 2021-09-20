@@ -2,22 +2,22 @@ module Core
   class Board
     attr_accessor :width, :heigth
 
-    def initialize(width, heigth, def_cell)
+    def mount_new_board(width, heigth, def_cell=Core::Cells::VOID)
       @width = width
       @heigth = heigth
-      @board = Array.new(width) { Array.new(heigth, def_cell) }
+      @board = Array.new(heigth) { Array.new(width, def_cell) }
     end
 
-    def [](width, heigth)
+    def [](x, y)
       begin
-        @board[width][heigth]
+        @board[y][x]
       rescue NoMethodError
         raise Core::Exceptions::InvalidPosition
       end
     end
 
-    def []=(width, heigth, value)
-      @board[width][heigth] = value
+    def []=(x, y, value)
+      @board[y][x] = value
     end
 
     def cell_is_void?(x, y)
@@ -46,13 +46,13 @@ module Core
   end
 
   class UserBoard < Board
-    def initialize(width, heigth)
+    def mount_new_board(width, heigth)
       super(width, heigth, Core::Cells::HIDE)
     end
   end
 
   class InternalBoard < Board
-    def initialize(width, heigth)
+    def mount_new_board(width, heigth)
       super(width, heigth, Core::Cells::VOID)
     end
   end
