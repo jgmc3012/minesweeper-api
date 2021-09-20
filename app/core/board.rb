@@ -9,14 +9,16 @@ module Core
     end
 
     def [](x, y)
-      begin
-        @board[y][x]
-      rescue NoMethodError
+      if x.negative? || x >= @width || y.negative? || y >= @heigth
         raise Core::Exceptions::InvalidPosition
       end
+      @board[y][x]
     end
 
     def []=(x, y, value)
+      if x.negative? || x >= @width || y.negative? || y >= @heigth
+        raise Core::Exceptions::InvalidPosition
+      end
       @board[y][x] = value
     end
 
@@ -44,12 +46,15 @@ module Core
       end
     end
 
+    # Read an array of arrays and return a new board
     def mount_board(data_board)
       if defined?(@board)
         raise Core::Exceptions::BoardStarted
       else
         @board = []
       end
+      @heigth = data_board.length
+      @width = data_board[0].length
       data_board.each_with_index do |row, y|
         @board.insert(y, [])
         row.each_with_index do |cell, x|
@@ -61,6 +66,20 @@ module Core
           end
         end
       end
+    end
+
+    def count_mines(x, y)
+      count = 0
+      (-1..1).each do |i|
+        (-1..1).each do |j|
+          begin
+            count += 1 if self[x + i, y + j].eql?(Core::Cells::MINE)
+          rescue Core::Exceptions::InvalidPosition
+            next
+          end
+        end
+      end
+      count
     end
 
   end
