@@ -35,6 +35,14 @@ module Core
     def count(type)
       @board.flatten.count(type)
     end
+
+    def toggle_flag(x:, y:, flag:)
+      if self[x, y].eql?(flag)
+        self[x, y] = Core::Cells::VOID
+      else
+        self[x, y] = flag
+      end
+    end
   end
 
   class UserBoard < Board
