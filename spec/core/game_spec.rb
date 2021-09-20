@@ -18,4 +18,8 @@ describe 'Game' do
       end
     end
   end
+
+  describe 'merge boards' do
+    it 'order flags > user > mines'
+  end
 end

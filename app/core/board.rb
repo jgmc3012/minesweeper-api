@@ -5,7 +5,8 @@ module Core
     def mount_new_board!(width, heigth, def_cell=Core::Cells::VOID)
       @width = width
       @heigth = heigth
-      @board = Array.new(heigth) { Array.new(width, def_cell) }
+      @def_cell = def_cell
+      @board = Array.new(heigth) { Array.new(width, @def_cell) }
     end
 
     def [](x, y)
@@ -58,11 +59,11 @@ module Core
       data_board.each_with_index do |row, y|
         @board.insert(y, [])
         row.each_with_index do |cell, x|
-          n = cell.to_i
-          if n.zero?
-            @board[y].insert(x, cell.to_sym)
+          key = get_cell_key(cell)
+          if is_a_cell_types_valid?(key)
+            @board[y].insert(x, key)
           else
-            @board[y].insert(x, n)
+            @board[y].insert(x, @def_cell)
           end
         end
       end
@@ -97,6 +98,14 @@ module Core
     end
 
     private
+    def get_cell_key(string)
+      begin
+        Integer(string)
+      rescue ArgumentError
+        string.to_sym
+      end
+    end
+
     def explore_around_position!(x, y)
       cell_for_explore = get_cell_around(x, y)
       loop do
@@ -131,18 +140,35 @@ module Core
       end
       cell_for_explore
     end
+
+    protected
+    def is_a_cell_types_valid?(_)
+      false
+    end
   end
 
 
   class UserBoard < Board
+    
     def mount_new_board!(width, heigth)
       super(width, heigth, Core::Cells::HIDE)
+    end
+
+    protected
+    def is_a_cell_types_valid?(type)
+      type in [Core::Cells::HIDE, Core::Cells::RED_FLAG, Core::Cells::QUESTION_FLAG]
     end
   end
 
   class InternalBoard < Board
+    
     def mount_new_board!(width, heigth)
       super(width, heigth, Core::Cells::VOID)
+    end
+
+    protected
+    def is_a_cell_types_valid?(type)
+      type in [Core::Cells::VOID, Core::Cells::MINE, 0, 1, 2, 3, 4, 5, 6, 7, 8]
     end
   end
 
