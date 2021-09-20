@@ -43,6 +43,20 @@ module Core
         self[x, y] = flag
       end
     end
+
+    def mount_board(data_board)
+      data_board.each_with_index do |row, y|
+        row.each_with_index do |cell, x|
+          n = cell.to_i
+          if n.zero?
+            self[x, y] = cell.to_sym
+          else
+            self[x, y] = n
+          end
+        end
+      end
+    end
+
   end
 
   class UserBoard < Board

@@ -3,7 +3,7 @@ module Core
     RED_FLAG = :R
     QUESTION_FLAG = :Q
     HIDE = :H
-    VOID = nil
+    VOID = :V
     MINE = :M
   end
 end
