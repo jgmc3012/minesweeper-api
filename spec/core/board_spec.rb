@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../../app/core/core'
+require_relative '../../app/core'
 
 describe 'Board' do
   describe 'star a game' do

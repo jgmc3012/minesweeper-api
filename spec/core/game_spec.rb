@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative '../../app/core/core'
+require_relative '../../app/core'
 
 describe 'Game' do
   describe 'cell is null?' do
