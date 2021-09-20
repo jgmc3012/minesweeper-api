@@ -42,7 +42,7 @@ module Core
     private
 
     def add_mine
-      while true
+      loop do
         x = rand(@user_board.width)
         y = rand(@user_board.heigth)
         if @mines_board.cell_is_void?(x, y)

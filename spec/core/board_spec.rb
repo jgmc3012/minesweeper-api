@@ -90,30 +90,32 @@ describe 'Board' do
 
   describe 'explorer position' do
     data_board = [
-      %w[V M V V V],
+      %w[M M V V V],
       %w[V V V V V],
       %w[V V V V V],
       %w[V V V V V],
       %w[V V M V V]
     ]
-    board = Core::Board.new
-    board.mount_board!(data_board)
     it 'discover all camp' do
+      board = Core::Board.new
+      board.mount_board!(data_board)
       expected_board = [
-        %w[V M V 0 0],
-        %w[V V V 0 0],
+        %w[M M 1 0 0],
+        %w[2 2 1 0 0],
         %w[0 0 0 0 0],
-        %w[0 V V V 0],
-        %w[0 V M V 0]
+        %w[0 1 1 1 0],
+        %w[0 1 M 1 0]
       ]
       board.explore_position!(2, 2)
       expect(board.to_array).to eq(expected_board)
     end
 
     it 'discover only consult position' do
+      board = Core::Board.new
+      board.mount_board!(data_board)
       expected_board = [
-        %w[V M V V V],
-        %w[V 1 V V V],
+        %w[M M V V V],
+        %w[V 2 V V V],
         %w[V V V V V],
         %w[V V V V V],
         %w[V V M V V]

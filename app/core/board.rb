@@ -69,9 +69,12 @@ module Core
     end
 
     def count_mines(x, y)
+      # TODO: Refactor this method using blocks
       count = 0
       (-1..1).each do |i|
         (-1..1).each do |j|
+          if i.zero? && j.zero? then next end
+
           begin
             count += 1 if self[x + i, y + j].eql?(Core::Cells::MINE)
           rescue Core::Exceptions::InvalidPosition
@@ -83,18 +86,53 @@ module Core
     end
 
     def explore_position!(x, y)
-      mines = count_mines(x, y)
-      if mines.zero?
-        # TODO: Explore all the cells around
-      else
-        self[x, y] = mines
+      self[x, y] = count_mines(x, y)
+      if self[x, y].zero?
+        explore_around_position!(x, y)
       end
     end
 
     def to_array
       @board.map { |row| row.map(&:to_s) }
     end
+
+    private
+    def explore_around_position!(x, y)
+      cell_for_explore = get_cell_around(x, y)
+      loop do
+        x, y = cell_for_explore.pop
+        if self.cell_is_void?(x, y)
+          self[x, y] = count_mines(x, y)
+          if self[x, y].zero?
+            cell_for_explore += get_cell_around(x, y)
+          end
+        end
+        unless cell_for_explore.any?
+          break
+        end
+      end
+    end
+
+    def get_cell_around(x, y)
+      # TODO: Refactor this method using blocks
+      cell_for_explore = []
+      (-1..1).each do |i|
+        (-1..1).each do |j|
+          if i.zero? && j.zero? then next end
+
+          begin
+            self[x + i, y + j]
+          rescue Core::Exceptions::InvalidPosition
+            next
+          else
+            cell_for_explore << [x + i, y + j]
+          end
+        end
+      end
+      cell_for_explore
+    end
   end
+
 
   class UserBoard < Board
     def mount_new_board!(width, heigth)
