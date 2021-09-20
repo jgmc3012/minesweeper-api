@@ -159,7 +159,7 @@ module Core
 
     protected
     def is_a_cell_types_valid?(type)
-      [Core::Cells::HIDE, Core::Cells::RED_FLAG, Core::Cells::QUESTION_FLAG].one?(type)
+      [Core::Cells::HIDE, Core::Cells::RED_FLAG, Core::Cells::QUESTION_FLAG, Core::Cells::SHOW].one?(type)
     end
   end
 
