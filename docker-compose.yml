@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  rails:
+    build: 
+      context: .
+      dockerfile: ./docker/local/rails/Dockerfile
+    image: minesweeper_api
+    ports:
+     - 3000:3000
+    volumes:
+      - .:/minesweeper
