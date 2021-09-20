@@ -82,6 +82,11 @@ describe 'Board' do
     board = Core::InternalBoard.new
     board.mount_board!(data_board)
 
+    it 'number cell' do
+      expect(board[0, 0]).to eq(1)
+      expect(board[2, 2]).to eq(2)
+    end
+
     it 'question flag cell' do
       expect(board[0, 4]).to eq(Core::Cells::VOID)
     end

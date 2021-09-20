@@ -1,6 +1,6 @@
 module Core
   class Board
-    attr_accessor :width, :heigth
+    attr_accessor :width, :heigth, :def_cell
 
     def initialize(def_cell=Core::Cells::VOID)
       @def_cell = def_cell
@@ -98,6 +98,19 @@ module Core
 
     def to_array
       @board.map { |row| row.map(&:to_s) }
+    end
+
+    def merge_and_transfor_to_s(other_board)
+      def_cell = other_board.def_cell
+      @board.each_with_index.map do |row, y|
+        row.each_with_index.map do |cell, x|
+          if other_board[x, y].eql?(def_cell) || other_board[x, y].eql?(Core::Cells::MINE)
+            cell.to_s
+          else
+            other_board[x, y].to_s
+          end
+        end
+      end
     end
 
     private

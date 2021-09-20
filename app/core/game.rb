@@ -28,6 +28,17 @@ module Core
       mines.times { add_mine }
     end
 
+    def resume_game(user_board, mine_board)
+      @user_board = Core::UserBoard.new
+      @user_board.mount_board!(user_board)
+
+      @mines_board = Core::InternalBoard.new
+      @mines_board.mount_board!(mine_board)
+    end
+
+    def render_board
+      @user_board.merge_and_transfor_to_s(@mines_board)
+    end
     private
 
     def add_mine
