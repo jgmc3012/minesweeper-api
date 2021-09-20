@@ -36,4 +36,17 @@ module Core
       @board.flatten.count(type)
     end
   end
+
+  class UserBoard < Board
+    def initialize(width, heigth)
+      super(width, heigth, Core::Cells::HIDE)
+    end
+  end
+
+  class InternalBoard < Board
+    def initialize(width, heigth)
+      super(width, heigth, Core::Cells::VOID)
+    end
+  end
+
 end

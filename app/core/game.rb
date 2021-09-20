@@ -25,12 +25,12 @@ module Core
     end
 
     def new_game(width:, heigth:, mines:)
-      @user_board = Board.new(width, heigth, Core::Cells::HIDE)
+      @user_board = Core::UserBoard.new(width, heigth)
       unless mines.between?(1, @user_board.one_third)
         raise Core::Exceptions::MinesExceeded
       end
-      @mines_board = Board.new(width, heigth, Core::Cells::VOID)
-      @flags_board = Board.new(width, heigth, Core::Cells::VOID)
+      @mines_board = Core::InternalBoard.new(width, heigth)
+      @flags_board = Core::InternalBoard.new(width, heigth)
       mines.times { add_mine }
     end
 
