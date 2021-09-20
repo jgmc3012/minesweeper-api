@@ -18,6 +18,7 @@ module Core
 
     def new_game(width:, heigth:, mines:)
       @user_board = Core::UserBoard.new
+      @is_over = false
       @user_board.mount_new_board!(width, heigth)
       unless mines.between?(1, @user_board.one_third)
         raise Core::Exceptions::MinesExceeded
@@ -28,16 +29,22 @@ module Core
       mines.times { add_mine }
     end
 
-    def resume_game(user_board, mine_board)
+    def resume_game(user_board, mine_board, is_over: false)
       @user_board = Core::UserBoard.new
       @user_board.mount_board!(user_board)
+      @is_over = is_over
 
       @mines_board = Core::InternalBoard.new
       @mines_board.mount_board!(mine_board)
     end
 
     def render_board
-      @user_board.merge_and_transfor_to_s(@mines_board)
+      if @is_over
+        ignore_cells = [@mines_board.def_cell]
+      else
+        ignore_cells = [@mines_board.def_cell, Core::Cells::MINE]
+      end
+      @user_board.merge_and_transfor_to_s(@mines_board, ignore_cells)
     end
 
     def exec(command:, x:, y:)

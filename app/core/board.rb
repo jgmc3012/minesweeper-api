@@ -100,11 +100,10 @@ module Core
       @board.map { |row| row.map(&:to_s) }
     end
 
-    def merge_and_transfor_to_s(other_board)
-      def_cell = other_board.def_cell
+    def merge_and_transfor_to_s(other_board, ignore_cells)
       @board.each_with_index.map do |row, y|
         row.each_with_index.map do |cell, x|
-          if other_board[x, y].eql?(def_cell) || other_board[x, y].eql?(Core::Cells::MINE)
+          if ignore_cells.any?(other_board[x, y])
             cell.to_s
           else
             other_board[x, y].to_s

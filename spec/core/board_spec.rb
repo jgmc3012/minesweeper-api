@@ -96,9 +96,8 @@ describe 'Board' do
     end
 
     it 'mine cell' do
-      expect(board[4, 4]).to eq(Core::Cells::MINE )
+      expect(board[4, 4]).to eq(Core::Cells::MINE)
     end
-
   end
 
   describe 'count mines' do
