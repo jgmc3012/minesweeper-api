@@ -2,15 +2,20 @@ require 'rails_helper'
 require_relative '../../app/core/core'
 
 describe 'Board' do
-  describe 'cell is null?' do
-    it 'should return true if cell is null' do
-      board = Core::Board.new(2, 2)
-      expect(board.cell_is_null?(0, 0)).to eq(true)
-    end
-    it 'should return false if cell is not null' do
-      board = Core::Board.new(2, 2)
-      board[0, 0] = 'X'
-      expect(board.cell_is_null?(0, 0)).to eq(false)
+  describe 'star a game' do
+    describe 'as new game' do
+      game = Core::Game.new
+      mines = 10
+      game.new_game(width: 10, heigth: 10, mines: mines)
+      it 'The user board should be hide' do
+        expect(game.user_board.all?(Core::Cells::HIDE)).to eq(true)
+      end
+      it 'Total mines should be indicated' do
+        expect(game.mines_board.count(Core::Cells::MINE)).to eq(mines)
+      end
+      it 'The flag board should be void' do
+        expect(game.flags_board.all?(Core::Cells::VOID)).to eq(true)
+      end
     end
   end
 end
