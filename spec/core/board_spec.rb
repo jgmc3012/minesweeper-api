@@ -76,7 +76,7 @@ describe 'Board' do
       %w[V V V M V],
       %w[V V V V V],
       %w[V V M V V],
-      %w[V M V M M],
+      %w[V M V M M]
     ]
     board = Core::Board.new
     board.mount_board(data_board)
@@ -87,4 +87,40 @@ describe 'Board' do
       expect(board.count_mines(2, 4)).to eq(3)
     end
   end
+
+  describe 'explorer position' do
+    data_board = [
+      %w[V M V V V],
+      %w[V V V V V],
+      %w[V V V V V],
+      %w[V V V V V],
+      %w[V V M V V]
+    ]
+    board = Core::Board.new
+    board.mount_board(data_board)
+    it 'discover all camp' do
+      expected_board = [
+        %w[V M V 0 0],
+        %w[V V V 0 0],
+        %w[0 0 0 0 0],
+        %w[0 V V V 0],
+        %w[0 V M V 0]
+      ]
+      board.explore_position(2, 2)
+      expect(board.to_array).to eq(expected_board)
+    end
+
+    it 'discover only consult position' do
+      expected_board = [
+        %w[V M V V V],
+        %w[V 1 V V V],
+        %w[V V V V V],
+        %w[V V V V V],
+        %w[V V M V V]
+      ]
+      board.explore_position(1, 1)
+      expect(board.to_array).to eq(expected_board)
+    end
+  end
+
 end
