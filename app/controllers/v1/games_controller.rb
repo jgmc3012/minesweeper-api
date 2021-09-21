@@ -1,3 +1,5 @@
+require_relative '../../core'
+
 module V1
   class GamesController < ApplicationController
     include Auth
