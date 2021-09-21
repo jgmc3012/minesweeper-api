@@ -28,7 +28,7 @@ module Core
       end
     end
 
-    def new_game(width:, heigth:, mines:)
+    def new_game!(width:, heigth:, mines:)
       @user_board = Core::UserBoard.new
       @is_over = false
       @user_board.mount_new_board!(width, heigth)
@@ -41,7 +41,7 @@ module Core
       mines.times { add_mine }
     end
 
-    def resume_game(user_board, mine_board, is_over: false)
+    def resume_game!(user_board, mine_board, is_over: false)
       @user_board = Core::UserBoard.new
       @user_board.mount_board!(user_board)
       @is_over = is_over
@@ -59,23 +59,23 @@ module Core
       @user_board.merge_and_transfor_to_s(@mines_board, ignore_cells)
     end
 
-    def exec(command:, x:, y:)
-      case command
-      when :show_cell
+    def exec(type_cell:, x:, y:)
+      case type_cell.to_sym
+      when Core::Cells::SHOW
         show_cell(x, y)
-      when :question_flag
+      when Core::Cells::QUESTION_FLAG
         toggle_flag(x, y, Core::Cells::QUESTION_FLAG)
-      when :red_flag
+      when Core::Cells::RED_FLAG
         toggle_flag(x, y, Core::Cells::RED_FLAG)
       else
-        raise Core::Exceptions::InvalidCommand
+        raise Core::Exceptions::InvalidCell
       end
-      render_board
     end
 
     private
+
     def show_cell(x, y)
-      if @mines_board[x,y].eql?(Core::Cells::MINE)
+      if @mines_board[x, y].eql?(Core::Cells::MINE)
         raise Core::Exceptions::GameOver
       else
         @mines.explore_position!(x, y)

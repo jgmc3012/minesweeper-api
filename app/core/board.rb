@@ -2,6 +2,10 @@ module Core
   class Board
     attr_accessor :width, :heigth, :def_cell
 
+    def as_json
+      @board
+    end
+
     def initialize(def_cell=Core::Cells::VOID)
       @def_cell = def_cell
     end

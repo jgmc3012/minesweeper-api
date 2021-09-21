@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../../../app/core'
 
 RSpec.describe 'Games', type: :request do
   describe 'POST /v1/games/' do
@@ -20,7 +21,7 @@ RSpec.describe 'Games', type: :request do
       end
 
       context 'user has a new game' do
-        user = User.find_by_username('millan')
+        let(:user) { User.find_by_username('millan') }
         it { expect(user.games.count).to eq(1) }
       end
     end

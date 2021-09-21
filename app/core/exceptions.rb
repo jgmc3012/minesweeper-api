@@ -19,7 +19,6 @@ module Core
         super
       end
     end
-    
 
     class GameNotStarted < MinesweeperExpection
       def initialize(message = 'Game not started')
@@ -39,8 +38,8 @@ module Core
       end
     end
 
-    class InvalidCommand < MinesweeperExpection
-      def initialize(message = 'Invalid command')
+    class InvalidCell < MinesweeperExpection
+      def initialize(message = 'Invalid type')
         super
       end
     end

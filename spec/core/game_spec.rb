@@ -6,7 +6,7 @@ describe 'Game' do
     describe 'as new game' do
       game = Core::GameI.new
       mines = 10
-      game.new_game(width: 10, heigth: 10, mines: mines)
+      game.new_game!(width: 10, heigth: 10, mines: mines)
       it 'The user board should be hide' do
         expect(game.user_board.all?(Core::Cells::HIDE)).to eq(true)
       end
@@ -40,7 +40,7 @@ describe 'Game' do
         %w[1 H 1 0 0]
       ]
       game = Core::GameI.new
-      game.resume_game(user_board, mine_board)
+      game.resume_game!(user_board, mine_board)
       expect(game.render_board).to eq(expected_board)
     end
     it 'the game is over' do
@@ -52,7 +52,7 @@ describe 'Game' do
         %w[1 H 1 0 0]
       ]
       game = Core::GameI.new
-      game.resume_game(user_board, mine_board, is_over: true)
+      game.resume_game!(user_board, mine_board, is_over: true)
       expect(game.render_board).to eq(expected_board)
     end
 
