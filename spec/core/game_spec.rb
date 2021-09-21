@@ -4,7 +4,7 @@ require_relative '../../app/core'
 describe 'Game' do
   describe 'star a game' do
     describe 'as new game' do
-      game = Core::Game.new
+      game = Core::GameI.new
       mines = 10
       game.new_game(width: 10, heigth: 10, mines: mines)
       it 'The user board should be hide' do
@@ -39,7 +39,7 @@ describe 'Game' do
         %w[H Q 1 0 0],
         %w[1 H 1 0 0]
       ]
-      game = Core::Game.new
+      game = Core::GameI.new
       game.resume_game(user_board, mine_board)
       expect(game.render_board).to eq(expected_board)
     end
@@ -51,7 +51,7 @@ describe 'Game' do
         %w[H M 1 0 0],
         %w[1 H 1 0 0]
       ]
-      game = Core::Game.new
+      game = Core::GameI.new
       game.resume_game(user_board, mine_board, is_over: true)
       expect(game.render_board).to eq(expected_board)
     end

@@ -1,5 +1,6 @@
 module Core
-  class Game
+  # Game interface
+  class GameI
     def user_board
       begin
         @user_board
