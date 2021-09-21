@@ -17,7 +17,7 @@ RSpec.describe 'Games', type: :request do
       context 'returns the board game and message' do
         subject { payload_test }
         it { expect(subject).to include(:board) }
-        it { expect(subject).to include(:message) }
+        it { expect(subject).to include(:msg) }
       end
     end
   end
