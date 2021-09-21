@@ -6,8 +6,7 @@ RSpec.describe 'Games', type: :request do
       params_create = {
         rows: 3, cols: 4, mines: 2,
       }
-      headers = { Authorization: 'millan' }
-      before { post('/v1/games/', params: params_create, headers: headers) }
+      before { post('/v1/games/', params: params_create, headers: user_header) }
 
       context 'returns status code 201' do
         subject { response }
