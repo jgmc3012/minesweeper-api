@@ -2,6 +2,7 @@ module Core
   # Game interface
   class GameI
     def user_board
+      # TODO: Refactor using meta-programming
       begin
         @user_board
       rescue NoMethodError
@@ -10,8 +11,18 @@ module Core
     end
 
     def mines_board
+      # TODO: Refactor using meta-programming
       begin
         @mines_board
+      rescue NoMethodError
+        raise Core::Exceptions::GameNotStarted
+      end
+    end
+
+    def is_over
+      # TODO: Refactor using meta-programming
+      begin
+        @is_over
       rescue NoMethodError
         raise Core::Exceptions::GameNotStarted
       end

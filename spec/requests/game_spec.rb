@@ -6,7 +6,7 @@ RSpec.describe 'Games', type: :request do
       params_create = {
         rows: 3, cols: 4, mines: 2,
       }
-      headers = { Authorization: 'jgmc3012' }
+      headers = { Authorization: 'millan' }
       before { post('/v1/games/', params: params_create, headers: headers) }
 
       context 'returns status code 201' do
@@ -18,6 +18,11 @@ RSpec.describe 'Games', type: :request do
         subject { payload_test }
         it { expect(subject).to include(:board) }
         it { expect(subject).to include(:msg) }
+      end
+
+      context 'user has a new game' do
+        user = User.find_by_username('millan')
+        it { expect(user.games.count).to eq(1) }
       end
     end
   end
