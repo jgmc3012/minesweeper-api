@@ -19,14 +19,14 @@ module V1
         game_interface.exec(**exec_params, type_cell: Core::Cells::SHOW)
       rescue Core::Exceptions::GameOver => e
         render json: { error: e.message }, status: :bad_request
+      end
+      if game_interface.is_over
+        message = 'Congratulations. You Win!'
       else
-        if game_interface.is_over
-          render json: { board: game_interface.render_board, msg: 'Congratulations. You Win!' }, status: :ok
-        else
-          render json: { board: game_interface.render_board, msg: 'Congratulations. You do not explode' }, status: :ok
-        end
+        message = 'Congratulations. You do not explode'
       end
       update_game(game_interface)
+      render json: { board: game_interface.render_board, msg: message }, status: :ok
     end
 
     private
