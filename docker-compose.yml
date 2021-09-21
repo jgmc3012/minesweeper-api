@@ -10,3 +10,16 @@ services:
      - 3000:3000
     volumes:
       - .:/minesweeper
+    env_file:
+      - .envs/.local/.postgres    
+
+  postgres:
+    restart: on-failure:3
+    image: postgres:13.2
+    volumes:
+      - db_store:/var/lib/postgresql/data
+    env_file:
+      - .envs/.local/.postgres
+
+volumes:
+  db_store:
