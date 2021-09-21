@@ -3,6 +3,10 @@ module V1
     include Auth
     before_action :authenticate_user
 
+    rescue_from Exception do |e|
+      render json: { error: e.message }, status: :internal_server_error
+    end
+
     rescue_from Core::Exceptions::MinesweeperExpection do |e|
       render json: { error: e.message }, status: :bad_request
     end
