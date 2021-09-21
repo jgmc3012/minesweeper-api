@@ -1,5 +1,5 @@
 module V1
-  class FlagsController < ApplicationController
+  class ExplorerController < ApplicationController
     include Auth
     before_action :authenticate_user
     before_action :current_game
@@ -11,9 +11,18 @@ module V1
     def create
       game_interface = Core::GameI.new
       game_interface.resume_game!(Current.game.user_board, Current.game.mines_board, is_over: Current.game.is_over)
-      game_interface.exec(**exec_params)
+      begin
+        game_interface.exec(**exec_params, type_cell: Core::Cells::SHOW)
+      rescue Core::Exceptions::GameOver => e
+        render json: { error: e.message }, status: :bad_request
+      else
+        if game_interface.is_over
+          render json: { board: game_interface.render_board, msg: 'Congratulations. You Win!' }, status: :ok
+        else
+          render json: { board: game_interface.render_board, msg: 'Congratulations. You do not explode' }, status: :ok
+        end
+      end
       update_game(game_interface)
-      render json: { board: game_interface.render_board, msg: 'Flag toggled' }, status: :ok
     end
 
     private
@@ -21,7 +30,6 @@ module V1
       {
         x: params.require(:x).to_i,
         y: params.require(:y).to_i,
-        type_cell: params.require(:type)
       }
     end
   end

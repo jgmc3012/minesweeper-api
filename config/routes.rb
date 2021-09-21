@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   namespace :v1, defaults: { format: :json } do
     resources :games, only: [:create]
     resources :flags, only: [:create]
+    resources :explorer, only: [:create]
   end
 end

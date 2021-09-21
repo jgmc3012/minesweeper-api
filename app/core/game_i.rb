@@ -62,7 +62,7 @@ module Core
     def exec(type_cell:, x:, y:)
       case type_cell.to_sym
       when Core::Cells::SHOW
-        show_cell(x, y)
+        explorer_cell(x, y)
       when Core::Cells::QUESTION_FLAG
         toggle_flag(x, y, Core::Cells::QUESTION_FLAG)
       when Core::Cells::RED_FLAG
@@ -74,11 +74,15 @@ module Core
 
     private
 
-    def show_cell(x, y)
-      if @mines_board[x, y].eql?(Core::Cells::MINE)
+    def explorer_cell(x, y)
+      if mines_board[x, y].eql?(Core::Cells::MINE)
+        @is_over = true
         raise Core::Exceptions::GameOver
       else
-        @mines.explore_position!(x, y)
+        mines_board.explore_position!(x, y)
+        if mines_board.count(mines_board.def_cell).zero?
+          @is_over = true
+        end
       end
     end
 

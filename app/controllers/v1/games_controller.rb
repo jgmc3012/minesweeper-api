@@ -1,6 +1,6 @@
 module V1
   class GamesController < ApplicationController
-    include Secured
+    include Auth
     before_action :authenticate_user
 
     rescue_from Core::Exceptions::MinesweeperExpection do |e|
